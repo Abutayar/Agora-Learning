@@ -1,0 +1,71 @@
+<nav class="navbar navbar-light bg-light">
+  <span class="navbar-brand mb-0 h1">The Event App - Agora demo</span>
+</nav>
+
+<div class="container h-75">
+  <!-- Pre-Call -->
+  <div class="row" *ngIf="!userConnected">
+    <div class="col-12">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="form-group">
+          <label for="username"></label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-control"
+            placeholder="Username"
+            ngModel
+            required
+            aria-describedby="helpId"
+          />
+          <small id="helpId" class="text-muted"
+            >Please provide your username</small
+          >
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
+          Join
+        </button>
+      </form>
+    </div>
+  </div>
+  <!-- Call -->
+  <div class="row h-100"  [ngStyle]="{'display': userConnected && !isShareScreen ? 'flex' : 'none'}">
+    <div class="col-12">
+      <div #player_container class="d-flex p-2 w-100 h-100 flex-wrap">
+        <div #self_player class="player flex-grow-1 flex-shrink-0"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row h-100" [ngStyle]="{'display': userConnected && isShareScreen ? 'flex' : 'none'}">
+    <div class="col-12">
+      <div #shareScreenEl class="share-screen w-100 h-100 bg-danger"></div>
+      <div #presenter class="presenter mini-player top-right">
+        <div class="display">
+          <p>John doe</p>
+        </div>
+      </div>
+      <div #otherSpeaker class="other bottom-left">
+
+      </div>
+    </div>
+  </div>
+  <div class="row" [hidden]="!userConnected">
+    <nav class="navbar navbar-light bg-light fixed-bottom">
+      <div class="float-right d-inline">
+        <button
+          class="btn btn-outline-primary m-3"
+          [disabled]="screenSharing.isScreenSharing && this.options.suid !== this.screenSharing.uid"
+          *ngIf="speaker.includes(options.username?.toLowerCase())"
+          (click)="shareScreen()"
+        >
+          {{ !localTracks.screenTrack ? "Share Screen" : "Stop Sharing" }}
+        </button>
+        <button class="btn btn-danger m-3" (click)="muteUnmuteVideo()">{{isVideoMute ? 'Unmute video' : 'Mute video'}}</button>
+        <button class="btn btn-danger m-3" (click)="muteUnmuteAudio()">{{isAudioMute ? 'Unmute Audio' : 'Mute Audio'}}</button>
+        <button class="btn btn-danger m-3" *ngIf="host.includes(options.username?.toLowerCase())"  (click)="startStream()">{{streamingStarted ? 'Stop' : 'Stream' }}</button>
+        <button class="btn btn-danger m-3" (click)="leave()">Leave</button>
+      </div>
+    </nav>
+  </div>
+</div>

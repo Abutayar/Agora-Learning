@@ -1,0 +1,27 @@
+<div>
+
+  <div #vc class="video-container">
+    <div class="profileImage" [ngStyle]="{'opacity': streamD.settings.videoActive ? '0' : '1'}" >
+      {{streamD?.user?.firstname?.charAt(0)}}{{streamD?.user?.lastname?.charAt(0)}}
+    </div>
+  </div>
+  <div class="username">
+    {{ streamD?.user?.firstname || "Unnamed" }} {{ streamD?.user?.lastname }}
+   <!--  {{streamD.stream.getAudioLevel()}} --> <!-- {{streamD.stream.getStats() | json}} -->
+    <div class="float-right ml-3">
+      <span *ngIf="streamD.stream.getAudioLevel() === 0;else elsemic" class="material-icons">{{
+        streamD?.settings?.audioActive
+          ? "mic_none"
+          : "mic_off"
+      }}</span>
+      <!-- streamD?.user.self
+          ? ""
+          :  -->
+      <ng-template #elsemic>
+        <span  class="material-icons pulse">{{
+          "mic"
+        }}</span>
+      </ng-template>
+    </div>
+  </div>
+</div>

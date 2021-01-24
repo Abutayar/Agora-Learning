@@ -1,0 +1,17 @@
+
+<section id="user-area" class="only-users d-flex align-items-center justify-content-center">
+  <div #gallery id="gallery" class="d-flex justify-content-center flex-wrap">
+    <ng-container *ngIf="_streams.length">
+
+      <ng-container *ngFor="let item of _streams">
+
+        <app-basic-video-o style="width: var(--width); height: var(--height)" [streamD]="item"  (renderedPlayer)="recalculateLayout()"></app-basic-video-o>
+
+      </ng-container>
+    </ng-container>
+
+
+  </div>
+
+
+</section>

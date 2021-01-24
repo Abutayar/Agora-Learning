@@ -1,0 +1,186 @@
+<ng-container *ngIf="streaming">
+  <app-only-users *ngIf="arrayOfStream.length" [streams]="arrayOfStream"></app-only-users>
+
+  <div class="control-panel">
+    <button
+      class="btn btn-primary ml-1"
+      (click)="isVideoMuted ? unMuteVideo() : muteVideo()"
+    >
+      <span class="material-icons">{{
+        isVideoMuted ? "videocam_off" : "videocam"
+      }}</span>
+      <!-- {{ isVideoMuted ? "Camera On" : "Camera Off" }} -->
+    </button>
+    <button
+      class="btn btn-primary ml-1"
+      (click)="isAudioMuted ? unMuteAudio() : muteAudio()"
+    >
+      <span class="material-icons">{{ isAudioMuted ? "mic_off" : "mic" }}</span>
+    </button>
+    <button
+      class="btn btn-primary ml-1"
+      (click)="openVerticallyCentered(content)"
+    >
+      <span class="material-icons">group </span>
+      <span style="position: absolute; line-height: 22px; padding-left: 2px">{{
+        agoraMgr?.sessionStats
+      }}</span>
+    </button>
+
+    <!-- <button class="btn btn-primary ml-1" (click)="loginRtm()">
+       <span >Join RTC</span>
+    </button>
+    <button class="btn btn-primary ml-1" (click)="logoutRtm()">
+       <span >Leave RTC</span>
+    </button> -->
+    <!-- <div>
+      <img src="assets/svg/group.svg" alt="">
+    </div> -->
+    <button class="btn btn-danger ml-1" (click)="leave()">
+      <span style="transform: rotate(180deg)" class="material-icons"
+        >exit_to_app</span
+      >
+    </button>
+
+
+
+    <div class="float-right meter">
+      <app-speedtest></app-speedtest>
+    </div>
+  </div>
+</ng-container>
+
+
+<div class="login" *ngIf="!streaming">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputusername1">Username</label>
+            <input
+              #username
+              type="text"
+              class="form-control"
+              id="exampleInputUsername1"
+            />
+          </div>
+          <button
+            type="button"
+            (click)="join(username.value)"
+            class="btn btn-primary"
+          >
+            Join
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<p>{{ errorMsg }}</p>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Participants</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p *ngIf="!agoraMgr.listOfStream.remoteStream.length">
+      No Participants
+    </p>
+    <ul class="list-group">
+      <ng-container
+        *ngFor="let remoteUser of agoraMgr.listOfStream.remoteStream"
+      >
+        <li class="list-group-item">
+          {{ remoteUser.user.firstname }}
+
+          <div *ngIf="agoraMgr?.listOfStream?.localStream?.user?.role === 'host'"
+            class="float-right ml-3"
+            [attr.role]="remoteUser?.user?.role"
+            [attr.self]="agoraMgr?.listOfStream?.localStream?.user?.role"
+            appDebounceClick
+            [debounceTime]="700"
+            (click)="removeRemoteUser(remoteUser.user.id)"
+          >
+            <span
+            style="transform: rotate(180deg)"
+              class="material-icons"
+              >exit_to_app</span
+            >
+
+          </div>
+          <div *ngIf="agoraMgr?.listOfStream?.localStream?.user?.role === 'host'"
+          class="float-right ml-3"
+          [attr.role]="remoteUser?.user?.role"
+          [attr.self]="agoraMgr?.listOfStream?.localStream?.user?.role"
+          appDebounceClick
+          [debounceTime]="700"
+          (click)="remoteUserVideo(remoteUser.user.id, remoteUser.settings)"
+        >
+        <span class="material-icons">
+          {{
+            remoteUser?.settings?.videoActive ? "videocam" : "videocam_off"
+          }}
+          </span>
+
+        </div>
+          <div
+            class="float-right ml-3"
+            [attr.role]="remoteUser?.user?.role"
+            [attr.self]="agoraMgr?.listOfStream?.localStream?.user?.role"
+            appDebounceClick
+            [debounceTime]="700"
+            (click)="muteRemoteUser(remoteUser.user.id,remoteUser.settings)"
+          >
+            <span
+              *ngIf="remoteUser.stream.getAudioLevel() === 0; else elsemic"
+              class="material-icons"
+              >{{
+                remoteUser?.settings?.audioActive ? "mic_none" : "mic_off"
+              }}</span
+            >
+            <ng-template #elsemic>
+              <span class="material-icons pulse">{{ "mic" }}</span>
+            </ng-template>
+          </div>
+
+
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="modal.close('Close click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+
+
+<ng-template #alert let-modal>
+
+  <div class="modal-body">
+    <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+    <p>{{messageAction}}</p>
+    <button type="button" class="btn btn-light" (click)="alertMAction(modal);">Accept</button>
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Deny</button>
+  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div> -->
+</ng-template>

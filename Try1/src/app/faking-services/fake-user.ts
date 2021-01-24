@@ -1,0 +1,38 @@
+export const users = [
+  {
+    id: '6002674d60427b8e341d3692',
+    role: 'host',
+    firstname: 'Stanley',
+    lastname: 'Robbins',
+    username: 'stanley',
+    videoStreamID: '897a322b-6564-4600-9c59-0b0379187f91',
+    screenStreamID: '39a79aa8-8ca5-48d2-a9f2-f76438e5b2f0',
+  },
+  {
+    id: '6002674dd7cafb08c85ea220',
+    role: 'speaker',
+    firstname: 'Deena',
+    lastname: 'Gibbs',
+    username: 'deena',
+    videoStreamID: 'e54f4882-235b-4ad4-bdff-c74bcd14772b',
+    screenStreamID: 'f1266eda-b688-4b9f-a6ec-69cb0728b208',
+  },
+  {
+    id: '6002674d05ee46b07421ad36',
+    role: 'speaker',
+    firstname: 'Callahan',
+    lastname: 'Gilbert',
+    username: 'callahan',
+    videoStreamID: 'a33c47db-334f-4aa9-b3d6-dd64b8e8a6fa',
+    screenStreamID: 'a707409a-4da0-4a0e-869f-223fec14535e',
+  },
+  {
+    id: '6002674dd70687b7c14ff48f',
+    role: 'speaker',
+    firstname: 'Brenda',
+    lastname: 'Mccullough',
+    username: 'brenda',
+    videoStreamID: '3ebbc5bb-5c20-41d3-a6d9-f927d031ed64',
+    screenStreamID: '403bf183-83e9-47c5-bbd3-66c569596bd8',
+  },
+];

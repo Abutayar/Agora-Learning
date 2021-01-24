@@ -1,0 +1,55 @@
+.video-container {
+  width: var(--width);
+  height: var(--height);
+  background-color: #3a3a3e;
+  border: 1px solid;
+  position: relative;
+}
+
+video {
+  height: 100%;
+  width: 100%;
+}
+
+.username {
+  position: relative;
+  bottom: 40px;
+  width: max-content;
+  background: #dc3142;
+  color: white;
+  padding: 8px 30px;
+}
+
+
+.profileImage {
+  width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #512DA8;
+    font-size: 4em;
+    color: #fff;
+    text-align: center;
+    line-height: 150px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0;
+}
+
+.pulse {
+  animation: pulse-animation 2s infinite;
+  border-radius: 100%;
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
